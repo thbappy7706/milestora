@@ -19,6 +19,9 @@ Tick items as they land. Each phase must end shippable with green tests.
 - [x] App layout: sidebar, header, breadcrumbs, theme toggle (appearance settings)
 - [x] Language placeholder (EN/BN switcher stub) in layout/nav
 - [x] `users.timezone` column + profile timezone setting (default `Asia/Dhaka`)
+- [x] Modern indigo/violet theme, branded sidebar, split auth layout, and theme + language switchers in sidebar and auth screens
+- [x] Bangla locale (`lang/bn.json`) with session-backed switcher and translated shell, auth, dashboard, roadmaps, and settings
+- [x] Demo login seeded (`demo@milestora.test` / `password`)
 - [x] Migrations & models: `roadmaps`, `node_types`, `nodes`, `resources`, `activity_logs`
     - [x] ULID/uuid public IDs for URL-facing models, integer PKs internally
     - [x] Soft deletes on `roadmaps`, `nodes`
@@ -141,6 +144,7 @@ Tick items as they land. Each phase must end shippable with green tests.
 
 ## Seed & Demo Data (§15)
 
+- [x] Demo user seeded (`demo@milestora.test` / `password`, email verified, `Asia/Dhaka`)
 - [ ] Seeder imports the sample roadmap as a public template ("LLM/NLP Engineer for Laravel Developers")
 - [ ] `php artisan demo:simulate {roadmap} --days=21` generating realistic logs/plan items
 - [ ] Templates: _12-Week Strength Plan_, _Read 24 Books_, _Ship a SaaS in 60 Days_, _Daily Habits_
@@ -159,9 +163,11 @@ Tick items as they land. Each phase must end shippable with green tests.
 
 Record progress here as items are ticked (newest first).
 
-| Date       | Phase | Notes                                                                                                                                                                 |
-| ---------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-25 | 1     | User timezone column + profile setting (validated) and EN/BN language switcher placeholder added; profile and roadmap tests green.                                    |
-| 2026-11-25 | 1     | Roadmap policy, `CreateRoadmap` action, form request, controller, routes, sidebar link, and index/create/show pages added; 6 roadmap tests, Pint, PHPStan, tsc green. |
-| 2026-11-25 | 1     | Domain migrations, models, enums, factories, and `NodeTypeSeeder` added; 7 feature tests, Pint, and PHPStan level 7 green.                                            |
-| 2026-11-25 | —     | Worklist created; starter kit (Phase 1 scaffolding/auth/layout) already in place.                                                                                     |
+| Date       | Phase | Notes                                                                                                                                                                                  |
+| ---------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-25 | 1     | Bangla locale added: session-backed switcher, shared translations, translated shell/auth/roadmaps/settings, dark-mode select options; locale tests green.                              |
+| 2026-11-25 | 1     | Modern indigo/violet theme, branded sidebar, split auth layout, theme + language switchers, and a demo user seeder added; 43 auth/settings tests, Pint, PHPStan, tsc, and build green. |
+| 2026-11-25 | 1     | User timezone column + profile setting (validated) and EN/BN language switcher placeholder added; profile and roadmap tests green.                                                     |
+| 2026-11-25 | 1     | Roadmap policy, `CreateRoadmap` action, form request, controller, routes, sidebar link, and index/create/show pages added; 6 roadmap tests, Pint, PHPStan, tsc green.                  |
+| 2026-11-25 | 1     | Domain migrations, models, enums, factories, and `NodeTypeSeeder` added; 7 feature tests, Pint, and PHPStan level 7 green.                                                             |
+| 2026-11-25 | —     | Worklist created; starter kit (Phase 1 scaffolding/auth/layout) already in place.                                                                                                      |

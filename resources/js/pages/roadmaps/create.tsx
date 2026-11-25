@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useTranslation } from '@/lib/i18n';
 import { index, store } from '@/routes/roadmaps';
 
 type KindOption = {
@@ -18,20 +19,23 @@ type KindOption = {
 };
 
 const fieldClassName =
-    'border-input flex h-9 w-full rounded-md border bg-transparent px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+    'border-input flex h-9 w-full rounded-md border bg-background px-3 py-1 text-sm shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] dark:bg-neutral-900 dark:text-neutral-100';
 
 export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
+    const t = useTranslation();
+
     return (
         <>
-            <Head title="New roadmap" />
+            <Head title={t('New roadmap')} />
 
             <div className="mx-auto w-full max-w-2xl p-4">
                 <Card>
                     <CardHeader>
-                        <CardTitle>New roadmap</CardTitle>
+                        <CardTitle>{t('New roadmap')}</CardTitle>
                         <CardDescription>
-                            Set up the basics now. You can add phases and tasks
-                            once it exists.
+                            {t(
+                                'Set up the basics now. You can add phases and tasks once it exists.',
+                            )}
                         </CardDescription>
                     </CardHeader>
 
@@ -40,26 +44,32 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
                             {({ processing, errors }) => (
                                 <>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="title">Title</Label>
+                                        <Label htmlFor="title">
+                                            {t('Title')}
+                                        </Label>
                                         <Input
                                             id="title"
                                             name="title"
                                             required
                                             autoFocus
-                                            placeholder="e.g. LLM/NLP Engineer in 9 months"
+                                            placeholder={t(
+                                                'e.g. LLM/NLP Engineer in 9 months',
+                                            )}
                                         />
                                         <InputError message={errors.title} />
                                     </div>
 
                                     <div className="grid gap-2">
                                         <Label htmlFor="description">
-                                            Description
+                                            {t('Description')}
                                         </Label>
                                         <textarea
                                             id="description"
                                             name="description"
                                             rows={4}
-                                            placeholder="What is this roadmap for?"
+                                            placeholder={t(
+                                                'What is this roadmap for?',
+                                            )}
                                             className={`${fieldClassName} h-auto py-2`}
                                         />
                                         <InputError
@@ -69,7 +79,9 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
 
                                     <div className="grid gap-4 sm:grid-cols-2">
                                         <div className="grid gap-2">
-                                            <Label htmlFor="kind">Kind</Label>
+                                            <Label htmlFor="kind">
+                                                {t('Kind')}
+                                            </Label>
                                             <select
                                                 id="kind"
                                                 name="kind"
@@ -80,8 +92,9 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
                                                     <option
                                                         key={kind.value}
                                                         value={kind.value}
+                                                        className="bg-background text-foreground dark:bg-neutral-900 dark:text-neutral-100"
                                                     >
-                                                        {kind.label}
+                                                        {t(kind.label)}
                                                     </option>
                                                 ))}
                                             </select>
@@ -90,7 +103,7 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
 
                                         <div className="grid gap-2">
                                             <Label htmlFor="daily_goal_minutes">
-                                                Daily goal (minutes)
+                                                {t('Daily goal (minutes)')}
                                             </Label>
                                             <Input
                                                 id="daily_goal_minutes"
@@ -112,7 +125,7 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
                                     <div className="grid gap-4 sm:grid-cols-2">
                                         <div className="grid gap-2">
                                             <Label htmlFor="start_date">
-                                                Start date
+                                                {t('Start date')}
                                             </Label>
                                             <Input
                                                 id="start_date"
@@ -126,7 +139,7 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
 
                                         <div className="grid gap-2">
                                             <Label htmlFor="target_end_date">
-                                                Target end date
+                                                {t('Target end date')}
                                             </Label>
                                             <Input
                                                 id="target_end_date"
@@ -141,10 +154,12 @@ export default function CreateRoadmap({ kinds }: { kinds: KindOption[] }) {
 
                                     <div className="flex items-center gap-3">
                                         <Button disabled={processing}>
-                                            Create roadmap
+                                            {t('Create roadmap')}
                                         </Button>
                                         <Button variant="ghost" asChild>
-                                            <Link href={index()}>Cancel</Link>
+                                            <Link href={index()}>
+                                                {t('Cancel')}
+                                            </Link>
                                         </Button>
                                     </div>
                                 </>

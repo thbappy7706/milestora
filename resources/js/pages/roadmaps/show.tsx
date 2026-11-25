@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useTranslation } from '@/lib/i18n';
 import { index } from '@/routes/roadmaps';
 
 type RoadmapDetail = {
@@ -24,6 +25,8 @@ type RoadmapDetail = {
 };
 
 export default function ShowRoadmap({ roadmap }: { roadmap: RoadmapDetail }) {
+    const t = useTranslation();
+
     return (
         <>
             <Head title={roadmap.title} />
@@ -35,23 +38,23 @@ export default function ShowRoadmap({ roadmap }: { roadmap: RoadmapDetail }) {
                             <h1 className="text-2xl font-semibold">
                                 {roadmap.title}
                             </h1>
-                            <Badge variant="secondary">{roadmap.kind}</Badge>
-                            <Badge variant="outline">{roadmap.status}</Badge>
+                            <Badge variant="secondary">{t(roadmap.kind)}</Badge>
+                            <Badge variant="outline">{t(roadmap.status)}</Badge>
                         </div>
                         <p className="max-w-2xl text-sm text-muted-foreground">
-                            {roadmap.description ?? 'No description yet.'}
+                            {roadmap.description ?? t('No description yet.')}
                         </p>
                     </div>
 
                     <Button variant="outline" asChild>
-                        <Link href={index()}>All roadmaps</Link>
+                        <Link href={index()}>{t('All roadmaps')}</Link>
                     </Button>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-3">
                     <Card>
                         <CardHeader>
-                            <CardDescription>Progress</CardDescription>
+                            <CardDescription>{t('Progress')}</CardDescription>
                             <CardTitle className="text-2xl">
                                 {Math.round(roadmap.progress)}%
                             </CardTitle>
@@ -60,7 +63,7 @@ export default function ShowRoadmap({ roadmap }: { roadmap: RoadmapDetail }) {
 
                     <Card>
                         <CardHeader>
-                            <CardDescription>Nodes</CardDescription>
+                            <CardDescription>{t('Nodes')}</CardDescription>
                             <CardTitle className="text-2xl">
                                 {roadmap.nodes_count}
                             </CardTitle>
@@ -69,9 +72,9 @@ export default function ShowRoadmap({ roadmap }: { roadmap: RoadmapDetail }) {
 
                     <Card>
                         <CardHeader>
-                            <CardDescription>Daily goal</CardDescription>
+                            <CardDescription>{t('Daily goal')}</CardDescription>
                             <CardTitle className="text-2xl">
-                                {roadmap.daily_goal_minutes} min
+                                {roadmap.daily_goal_minutes} {t('min')}
                             </CardTitle>
                         </CardHeader>
                     </Card>
@@ -79,22 +82,23 @@ export default function ShowRoadmap({ roadmap }: { roadmap: RoadmapDetail }) {
 
                 <Card className="flex-1">
                     <CardHeader>
-                        <CardTitle>Roadmap tree</CardTitle>
+                        <CardTitle>{t('Roadmap tree')}</CardTitle>
                         <CardDescription>
                             {roadmap.start_date || roadmap.target_end_date
                                 ? `${roadmap.start_date ?? '—'} → ${roadmap.target_end_date ?? '—'}`
-                                : 'No dates set.'}
+                                : t('No dates set.')}
                         </CardDescription>
                     </CardHeader>
 
                     <CardContent>
                         <div className="flex min-h-48 flex-col items-center justify-center gap-2 rounded-lg border border-dashed p-8 text-center">
                             <p className="text-sm font-medium">
-                                This roadmap is empty.
+                                {t('This roadmap is empty.')}
                             </p>
                             <p className="max-w-sm text-sm text-muted-foreground">
-                                The tree editor arrives in the next phase. For
-                                now the roadmap is created and ready for nodes.
+                                {t(
+                                    'The tree editor arrives in the next phase. For now the roadmap is created and ready for nodes.',
+                                )}
                             </p>
                         </div>
                     </CardContent>

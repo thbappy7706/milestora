@@ -9,6 +9,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { useTranslation } from '@/lib/i18n';
 import { create, index, show } from '@/routes/roadmaps';
 
 type RoadmapSummary = {
@@ -28,23 +29,27 @@ export default function RoadmapsIndex({
 }: {
     roadmaps: RoadmapSummary[];
 }) {
+    const t = useTranslation();
+
     return (
         <>
-            <Head title="Roadmaps" />
+            <Head title={t('Roadmaps')} />
 
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-semibold">Roadmaps</h1>
+                        <h1 className="text-2xl font-semibold">
+                            {t('Roadmaps')}
+                        </h1>
                         <p className="text-sm text-muted-foreground">
-                            Your plans and their progress.
+                            {t('Your plans and their progress.')}
                         </p>
                     </div>
 
                     <Button asChild>
                         <Link href={create()}>
                             <Plus />
-                            New roadmap
+                            {t('New roadmap')}
                         </Link>
                     </Button>
                 </div>
@@ -52,14 +57,18 @@ export default function RoadmapsIndex({
                 {roadmaps.length === 0 ? (
                     <Card>
                         <CardHeader>
-                            <CardTitle>No roadmaps yet</CardTitle>
+                            <CardTitle>{t('No roadmaps yet')}</CardTitle>
                             <CardDescription>
-                                Create your first roadmap to start planning.
+                                {t(
+                                    'Create your first roadmap to start planning.',
+                                )}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Button asChild>
-                                <Link href={create()}>Create a roadmap</Link>
+                                <Link href={create()}>
+                                    {t('Create a roadmap')}
+                                </Link>
                             </Button>
                         </CardContent>
                     </Card>
@@ -78,12 +87,12 @@ export default function RoadmapsIndex({
                                                 {roadmap.title}
                                             </CardTitle>
                                             <Badge variant="secondary">
-                                                {roadmap.kind}
+                                                {t(roadmap.kind)}
                                             </Badge>
                                         </div>
                                         <CardDescription className="line-clamp-2">
                                             {roadmap.description ??
-                                                'No description'}
+                                                t('No description')}
                                         </CardDescription>
                                     </CardHeader>
 
@@ -100,8 +109,8 @@ export default function RoadmapsIndex({
                                             {Math.round(roadmap.progress)}% ·{' '}
                                             {roadmap.nodes_count}{' '}
                                             {roadmap.nodes_count === 1
-                                                ? 'node'
-                                                : 'nodes'}
+                                                ? t('node')
+                                                : t('nodes')}
                                         </p>
                                     </CardContent>
                                 </Card>

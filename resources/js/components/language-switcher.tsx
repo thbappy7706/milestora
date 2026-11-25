@@ -1,4 +1,6 @@
-import { Languages } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { Check, Globe2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -7,54 +9,74 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from '@/components/ui/sidebar';
+import { useTranslation } from '@/lib/i18n';
+import { cn } from '@/lib/utils';
+import { update as updateLocale } from '@/routes/locale';
 
 const locales = [
-    { code: 'en', label: 'English', available: true },
-    { code: 'bn', label: 'বাংলা', available: false },
+    { value: 'en', label: 'English', short: 'EN' },
+    { value: 'bn', label: 'বাংলা', short: 'বাংলা' },
 ] as const;
 
-export function LanguageSwitcher() {
+type Props = {
+    align?: 'start' | 'center' | 'end';
+    className?: string;
+};
+
+export function LanguageSwitcher({ align = 'end', className }: Props) {
+    const { locale } = usePage().props;
+    const t = useTranslation();
+
+    const changeLocale = (value: 'en' | 'bn') => {
+        if (value === locale) {
+            return;
+        }
+
+        router.post(
+            updateLocale.url(),
+            { locale: value },
+            { preserveScroll: true },
+        );
+    };
+
+    const current = locales.find((item) => item.value === locale);
+
     return (
-        <SidebarMenu>
-            <SidebarMenuItem>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton size="sm">
-                            <Languages />
-                            <span>English</span>
-                        </SidebarMenuButton>
-                    </DropdownMenuTrigger>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    aria-label={t('Language')}
+                    className={cn(
+                        'h-8 gap-1.5 px-2 text-muted-foreground hover:text-foreground',
+                        className,
+                    )}
+                >
+                    <Globe2 className="size-4" />
+                    <span className="text-xs font-semibold tracking-wide group-data-[collapsible=icon]:hidden">
+                        {current?.short ?? 'EN'}
+                    </span>
+                </Button>
+            </DropdownMenuTrigger>
 
-                    <DropdownMenuContent
-                        side="right"
-                        align="end"
-                        className="w-44"
+            <DropdownMenuContent align={align} className="w-44">
+                <DropdownMenuLabel>{t('Language')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+
+                {locales.map((option) => (
+                    <DropdownMenuItem
+                        key={option.value}
+                        onSelect={() => changeLocale(option.value)}
+                        className="justify-between"
                     >
-                        <DropdownMenuLabel>Language</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-
-                        {locales.map((locale) => (
-                            <DropdownMenuItem
-                                key={locale.code}
-                                disabled={!locale.available}
-                                className="justify-between"
-                            >
-                                <span>{locale.label}</span>
-                                {!locale.available && (
-                                    <span className="text-xs text-muted-foreground">
-                                        Soon
-                                    </span>
-                                )}
-                            </DropdownMenuItem>
-                        ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </SidebarMenuItem>
-        </SidebarMenu>
+                        <span>{option.label}</span>
+                        {locale === option.value && (
+                            <Check className="size-4 text-primary" />
+                        )}
+                    </DropdownMenuItem>
+                ))}
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }
