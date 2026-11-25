@@ -19,6 +19,7 @@ trait ProfileValidationRules
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($userId),
+            'timezone' => $this->timezoneRules(),
         ];
     }
 
@@ -30,6 +31,16 @@ trait ProfileValidationRules
     protected function nameRules(): array
     {
         return ['required', 'string', 'max:255'];
+    }
+
+    /**
+     * Get the validation rules used to validate user timezones.
+     *
+     * @return array<int, ValidationRule|string>
+     */
+    protected function timezoneRules(): array
+    {
+        return ['sometimes', 'required', 'string', 'timezone'];
     }
 
     /**

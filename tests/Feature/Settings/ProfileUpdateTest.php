@@ -33,6 +33,49 @@ test('profile information can be updated', function () {
     expect($user->email_verified_at)->toBeNull();
 });
 
+test('new users default to the Asia/Dhaka timezone', function () {
+    $user = User::factory()->create();
+
+    expect($user->refresh()->timezone)->toBe('Asia/Dhaka');
+});
+
+test('profile timezone can be updated', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => $user->email,
+            'timezone' => 'Europe/Berlin',
+        ]);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('profile.edit'));
+
+    expect($user->refresh()->timezone)->toBe('Europe/Berlin');
+});
+
+test('profile timezone must be a valid timezone', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->actingAs($user)
+        ->from(route('profile.edit'))
+        ->patch(route('profile.update'), [
+            'name' => $user->name,
+            'email' => $user->email,
+            'timezone' => 'Mars/Olympus',
+        ]);
+
+    $response
+        ->assertSessionHasErrors('timezone')
+        ->assertRedirect(route('profile.edit'));
+
+    expect($user->refresh()->timezone)->toBe('Asia/Dhaka');
+});
+
 test('email is stored in lowercase so the user can still log in', function () {
     $user = User::factory()->create();
 

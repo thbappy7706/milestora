@@ -18,9 +18,11 @@ type PageProps = {
 export default function Profile({
     mustVerifyEmail,
     status,
+    timezones,
 }: {
     mustVerifyEmail: boolean;
     status?: string;
+    timezones: string[];
 }) {
     const { auth } = usePage<PageProps>().props;
 
@@ -83,6 +85,30 @@ export default function Profile({
                                     className="mt-2"
                                     message={errors.email}
                                 />
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="timezone">Timezone</Label>
+
+                                <select
+                                    id="timezone"
+                                    name="timezone"
+                                    defaultValue={auth.user.timezone}
+                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+                                >
+                                    {timezones.map((timezone) => (
+                                        <option key={timezone} value={timezone}>
+                                            {timezone}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <InputError message={errors.timezone} />
+
+                                <p className="text-xs text-muted-foreground">
+                                    Used for daily progress, streaks, and
+                                    reminders.
+                                </p>
                             </div>
 
                             {mustVerifyEmail &&
